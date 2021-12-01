@@ -13,12 +13,9 @@ import pytest
 
 class TestRunner:
     data = get_data(get_sheet('case_data.xlsx'))
-    n = 0
-    a = data[n]['exe']
 
     @save_error_screenshot
     @pytest.mark.parametrize('test_data', data)
-    @pytest.mark.skipif(data[n]['exe'] not in ('Y', 'y'), reason='标记不执行')
     def test_run(self, driver, test_data):
         self.driver = driver
         for x in test_data['step']:
@@ -28,7 +25,6 @@ class TestRunner:
                 f(driver, target, value)
             else:
                 print(f'{action}不存在, 请添加')
-        self.n += 1
 
 
 if __name__ == '__main__':
