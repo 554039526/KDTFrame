@@ -7,6 +7,7 @@
 """
 import time
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 def open(driver, target, value):
@@ -88,4 +89,11 @@ def set_by(how):
         return By.CSS_SELECTOR
 
 
+def left_click_xy(driver, target, value):
+    ActionChains(driver).move_by_offset(value[0], value[1]).click().perform()
+    ActionChains(driver).move_by_offset(value[0]*(-1), value[1]*(-1)).perform()
 
+
+def right_click_xy(driver, target, value):
+    ActionChains(driver).move_by_offset(value[0], value[1]).context_click().perform()
+    ActionChains(driver).move_by_offset(value[0]*(-1), value[1]*(-1)).perform()

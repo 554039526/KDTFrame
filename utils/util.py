@@ -43,6 +43,9 @@ screenshots_path = os.path.join(report_path, 'screenshots')
 cf = configparser.ConfigParser()
 cf.read(conf_path)
 
+# 图片识别用到的source image 路径
+cvImage_path = os.path.join(data_path, 'cvImage')
+
 
 def getItemsSection(section_name):
     options_dist = dict(cf.items(section_name))
