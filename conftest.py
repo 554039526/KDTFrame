@@ -7,6 +7,7 @@
 """
 import pytest
 from selenium import webdriver
+import time
 
 
 @pytest.fixture(name='driver', params=['1'], scope='module', autouse=False)

@@ -12,6 +12,8 @@ import cv2 as cv
 from utils.util import cvImage_path
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import Select
+from selenium import webdriver
 
 
 def open(driver, target, value):
@@ -51,8 +53,9 @@ def wait(timeout=1):
     pass
 
 
-def will_has(driver, how, what):
+def will_has(driver, target, value):
     try:
+        how, what = target.split('=', 1)
         driver.find_element(set_by(how), what)
     except Exception as e:
         return None
@@ -75,21 +78,21 @@ def will_equal(driver, target: str, value: str):
 
 
 def set_by(how):
-    if how == 'id':
+    if how in ('id', 'ID'):
         return By.ID
-    if how == 'name':
+    if how in ('name', 'NAME'):
         return By.NAME
-    if how == 'xpath':
+    if how in ('xpath', 'XPATH'):
         return By.XPATH
-    if how == 'classname':
+    if how in ('classname','CLASSNAME'):
         return By.CLASS_NAME
-    if how == 'linktext':
+    if how in ('linktext', 'LINKTEXT'):
         return By.LINK_TEXT
-    if how == 'partial_linktext':
+    if how in ('partial_linktext', 'PARTIAL_LINKTEXT'):
         return By.PARTIAL_LINK_TEXT
-    if how == 'tagname':
+    if how in ('tagname', 'TAGNAME'):
         return By.TAG_NAME
-    if how == 'css_selector':
+    if how in ('css_selector', 'CSS_SELECTOR'):
         return By.CSS_SELECTOR
 
 
@@ -103,12 +106,12 @@ def left_click_xy(driver, target, value):
 
 
 def right_click_xy(driver, target, value):
-    try:
-        ActionChains(driver).move_by_offset(value[0], value[1]).context_click().perform()
-        ActionChains(driver).move_by_offset(value[0]*(-1), value[1]*(-1)).perform()
-        return True
-    except Exception as e:
-        return False
+    # try:
+    ActionChains(driver).move_by_offset(value[0], value[1]).context_click().perform()
+    ActionChains(driver).move_by_offset(value[0]*(-1), value[1]*(-1)).perform()
+    #     return True
+    # except Exception as e:
+    #     return False
 
 
 def find_image(driver, target, value):
@@ -149,3 +152,32 @@ def find_image(driver, target, value):
             return (x, y)
     else:
         return None
+
+
+def select(driver, target, value):
+    """
+    :param driver:
+    :param target: 获取select的方式
+    :param value: 获取选项的text
+    :return:
+    """
+    how, what = target.split('=', 1)
+    try:
+        element = driver.find_element(set_by(how), what)
+        S = Select(element)
+        S.select_by_visible_text(value)
+        return True
+    except Exception:
+        return False
+
+
+def switch_to_frame(driver, target, value):
+    try:
+        how, what = target.split('=', 1)
+        element = driver.find_element(set_by(how), what)
+        driver.switch_to.frame(element)
+        return True
+    except Exception:
+        return False
+
+
