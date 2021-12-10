@@ -32,8 +32,8 @@ log_name = os.path.join(log_path, now + '.log')
 file_dir = os.path.join(root_path, 'pytest.ini')
 
 # 配置文件的路径
-conf_dir = os.path.join(root_path, 'resources')
-conf_path = os.path.join(conf_dir, 'application.ini')
+conf_dir = os.path.join(root_path, 'conf')
+conf_path = os.path.join(conf_dir, 'conf.ini')
 
 # 截图存放路径
 if not os.path.exists(os.path.join(report_path, 'screenshots')):
@@ -72,9 +72,6 @@ def save_error_screenshot(func):
     return wrapper
 
 
-# if __name__ == '__main__':
-#     res = csv_to_dict('account=18703651002,\npassword=Beijing@123')
-#     s = ['使用有效管理员账号登录', 'account=18703651019,\npassword=Beijing@123', '我自有的房源']
-#     print(csv_to_dict(s[1]))
-#     res = read_csv('test_02_customer_create.csv')
-#     print(type(res))
+if __name__ == '__main__':
+    res = getItemsSection('email')
+    print(res)

@@ -6,7 +6,7 @@
     @Author: Wan Wenlong
 """
 from utils.excel import *
-from utils import keylib
+from utils import keylib, sendEmail
 from utils.util import *
 import pytest
 
@@ -30,3 +30,5 @@ class TestRunner:
 if __name__ == '__main__':
     pytest.main(['-v', '--log-file={}'.format(log_name),
                  '--html={}'.format(report_name), '--self-contained-html', __file__])
+    sendEmail.send_email(report_name)
+

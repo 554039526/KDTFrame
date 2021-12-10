@@ -16,4 +16,5 @@ def driver():
     driver.maximize_window()
     driver.implicitly_wait(30)
     yield driver
+    time.sleep(5)
     driver.quit()

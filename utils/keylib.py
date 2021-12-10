@@ -17,32 +17,32 @@ from selenium import webdriver
 
 
 def open(driver, target, value):
-    try:
-        driver.get(value)
-        return True
-    except Exception as e:
-        return False
+    # try:
+    driver.get(value)
+    #     return True
+    # except Exception as e:
+    #     return False
 
 
 def input(driver, target, value):
     how, what = target.split('=', 1)
-    try:
-        element = driver.find_element(set_by(how), what)
-        element.clear()
-        element.send_keys(value)
-        return True
-    except Exception as e:
-        return None
+    # try:
+    element = driver.find_element(set_by(how), what)
+    element.clear()
+    element.send_keys(value)
+    #     return True
+    # except Exception as e:
+    #     return None
 
 
 def click(driver, target, value):
     how, what = target.split('=', 1)
-    try:
-        element = driver.find_element(set_by(how), what)
-        element.click()
-        return True
-    except Exception as e:
-        return None
+    # try:
+    element = driver.find_element(set_by(how), what)
+    element.click()
+    #     return True
+    # except Exception as e:
+    #     return None
 
 
 def sleep(timeout=1):
@@ -54,12 +54,12 @@ def wait(timeout=1):
 
 
 def will_has(driver, target, value):
-    try:
-        how, what = target.split('=', 1)
-        driver.find_element(set_by(how), what)
-    except Exception as e:
-        return None
-    return True
+    # try:
+    how, what = target.split('=', 1)
+    driver.find_element(set_by(how), what)
+    # except Exception as e:
+    #     return None
+    # return True
 
 
 def will_in(driver, target, value):
@@ -74,7 +74,7 @@ def will_equal(driver, target: str, value: str):
             return True
         return False
     except Exception as e:
-        return False
+        raise e
 
 
 def set_by(how):
@@ -162,22 +162,83 @@ def select(driver, target, value):
     :return:
     """
     how, what = target.split('=', 1)
-    try:
-        element = driver.find_element(set_by(how), what)
-        S = Select(element)
-        S.select_by_visible_text(value)
-        return True
-    except Exception:
-        return False
+    # try:
+    element = driver.find_element(set_by(how), what)
+    S = Select(element)
+    S.select_by_visible_text(value)
+    #     return True
+    # except Exception:
+    #     return False
 
 
 def switch_to_frame(driver, target, value):
-    try:
-        how, what = target.split('=', 1)
-        element = driver.find_element(set_by(how), what)
-        driver.switch_to.frame(element)
-        return True
-    except Exception:
-        return False
+    """
+    frame/iframe 切换
+    :param driver:
+    :param target:
+    :param value:
+    :return:
+    """
+    # try:
+    how, what = target.split('=', 1)
+    element = driver.find_element(set_by(how), what)
+    driver.switch_to.frame(element)
+    #     return True
+    # except Exception:
+    #     return False
+
+
+def move_to_element(driver, target, value):
+    """
+    鼠标悬停到某个控件上
+    :param driver:
+    :param target:
+    :param value:
+    :return:
+    """
+    how, what = target.split('=', 1)
+    element = driver.find_element(set_by(how), what)
+    ActionChains(driver).move_to_element(element).perform()
+    time.sleep(1)
+
+
+def alert_close(driver, target, value):
+    """
+    关闭警告框
+    :param driver:
+    :param target:
+    :param value:
+    :return:
+    """
+    driver.switch_to.alert.dismiss()
+
+
+def alert_accept(driver, target, value):
+    """
+    保存警告框
+    :param driver:
+    :param target:
+    :param value:
+    :return:
+    """
+    driver.switch_to.alert.accept()
+
+
+def switch_window(driver, target, value):
+    """
+
+    :param driver:
+    :param target:
+    :param value:
+    :return:
+    """
+    all_windows = driver.window_handles
+    driver.switch_to.window(all_windows[int(value)])
+
+
+def scroll_to_element(driver, target, value):
+    how, what = target.split('=', 1)
+    element = driver.find_element(set_by(how), what)
+    driver.execute_script('arguments[0].scrollIntoView();', element)
 
 
